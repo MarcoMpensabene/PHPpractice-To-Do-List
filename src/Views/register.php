@@ -24,16 +24,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Registrazione</title>
+    <link rel="stylesheet" href="../style/register.css">
 </head>
 
 <body>
-    <h1>Registrazione</h1>
-    <form method="post">
-        <input type="text" name="username" placeholder="Nome utente" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Registrati</button>
-    </form>
+    <div class="form-container">
+        <h1>Registrazione</h1>
+        <?php if (!empty($successMessage)): ?>
+            <div class="message success"><?= $successMessage ?></div>
+        <?php elseif (!empty($errorMessage)): ?>
+            <div class="message error"><?= $errorMessage ?></div>
+        <?php endif; ?>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Nome utente</label>
+                <input type="text" id="username" name="username" placeholder="Inserisci il tuo nome utente" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Registrati</button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
