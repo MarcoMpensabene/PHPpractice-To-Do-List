@@ -8,14 +8,21 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once __DIR__ . '../../../config/database.php';
 
-$pdo =  require_once __DIR__ . '../../../config/database.php';
+$pdo =  require __DIR__ . '../../../config/database.php';
 $user_id = $_SESSION['user_id'];
 
 // Aggiungi un task
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task'])) {
-    $task = $_POST['task'];
-    $stmt = $pdo->prepare("INSERT INTO tasks (user_id, task) VALUES (:user_id, :task)");
-    $stmt->execute(['user_id' => $user_id, 'task' => $task]);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_POST['description'])) {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+
+    $stmt = $pdo->prepare("INSERT INTO tasks (user_id, title, description, status) VALUES (:user_id, :title, :description, :status)");
+    $stmt->execute([
+        'user_id' => $user_id,
+        'title' => $title,
+        'description' => $description,
+        'status' => 'pending' // Valore predefinito per lo stato
+    ]);
 }
 
 // Segna un task come completato
@@ -54,16 +61,19 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <!-- Form per aggiungere un task -->
         <form method="post" class="task-form">
-            <input type="text" name="task" placeholder="Aggiungi un nuovo task" required>
+            <input type="text" name="title" placeholder="Titolo del task" required>
+            <textarea name="description" placeholder="Descrizione del task" required></textarea>
             <button type="submit">Aggiungi</button>
         </form>
 
         <!-- Elenco dei task -->
         <ul class="task-list">
             <?php foreach ($tasks as $task): ?>
-                <li class="<?= $task['completed'] ? 'completed' : '' ?>">
-                    <?= htmlspecialchars($task['task']) ?>
-                    <?php if (!$task['completed']): ?>
+                <li class="<?= $task['status'] === 'completed' ? 'completed' : '' ?>">
+                    <h3><?= htmlspecialchars($task['title']) ?></h3>
+                    <p><?= htmlspecialchars($task['description']) ?></p>
+                    <span>Status: <?= htmlspecialchars($task['status']) ?></span>
+                    <?php if ($task['status'] !== 'completed'): ?>
                         <a href="?complete=<?= $task['id'] ?>" class="complete">Completa</a>
                     <?php endif; ?>
                     <a href="?delete=<?= $task['id'] ?>" class="delete">Elimina</a>
