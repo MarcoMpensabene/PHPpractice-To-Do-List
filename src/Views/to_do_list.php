@@ -57,26 +57,43 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <div class="container">
-        <h1>Ciao, gestisci la tua To-Do List</h1>
+        <header>
+            <h1>La tua To-Do List</h1>
+        </header>
+
+        <!-- Messaggi di errore/successo -->
+        <?php if (!empty($successMessage)): ?>
+            <div class="alert success"><?= htmlspecialchars($successMessage) ?></div>
+        <?php elseif (!empty($errorMessage)): ?>
+            <div class="alert error"><?= htmlspecialchars($errorMessage) ?></div>
+        <?php endif; ?>
 
         <!-- Form per aggiungere un task -->
         <form method="post" class="task-form">
-            <input type="text" name="title" placeholder="Titolo del task" required>
-            <textarea name="description" placeholder="Descrizione del task" required></textarea>
-            <button type="submit">Aggiungi</button>
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Titolo del task" required>
+            </div>
+            <div class="form-group">
+                <textarea name="description" placeholder="Descrizione del task" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Aggiungi Task</button>
         </form>
 
         <!-- Elenco dei task -->
         <ul class="task-list">
             <?php foreach ($tasks as $task): ?>
-                <li class="<?= $task['status'] === 'completed' ? 'completed' : '' ?>">
-                    <h3><?= htmlspecialchars($task['title']) ?></h3>
-                    <p><?= htmlspecialchars($task['description']) ?></p>
-                    <span>Status: <?= htmlspecialchars($task['status']) ?></span>
-                    <?php if ($task['status'] !== 'completed'): ?>
-                        <a href="?complete=<?= $task['id'] ?>" class="complete">Completa</a>
-                    <?php endif; ?>
-                    <a href="?delete=<?= $task['id'] ?>" class="delete">Elimina</a>
+                <li class="task-item <?= $task['status'] === 'completed' ? 'completed' : '' ?>">
+                    <div class="task-content">
+                        <h3><?= htmlspecialchars($task['title']) ?></h3>
+                        <p><?= htmlspecialchars($task['description']) ?></p>
+                        <span class="status <?= $task['status'] ?>"><?= ucfirst($task['status']) ?></span>
+                    </div>
+                    <div class="task-actions">
+                        <?php if ($task['status'] !== 'completed'): ?>
+                            <a href="?complete=<?= $task['id'] ?>" class="btn btn-success">Completa</a>
+                        <?php endif; ?>
+                        <a href="?delete=<?= $task['id'] ?>" class="btn btn-danger">Elimina</a>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>
