@@ -1,73 +1,142 @@
+/* Impostazioni di base */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
     color: #333;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+/* Intestazione */
+header h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Alert */
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
     text-align: center;
 }
 
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Form */
 .task-form {
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.task-form input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.form-group {
+    margin-bottom: 15px;
 }
 
-.task-form button {
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Pulsanti */
+button,
+a.btn {
+    display: inline-block;
     padding: 10px 15px;
-    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.btn-primary {
     background-color: #007bff;
     color: white;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-.task-form button:hover {
+.btn-primary:hover {
     background-color: #0056b3;
 }
 
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Elenco delle attività */
 .task-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.task-list li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.task-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
 }
 
-.task-list li.completed {
+.task-item.completed h3 {
     text-decoration: line-through;
-    color: #888;
+    color: #6c757d;
 }
 
-.task-list li a {
-    text-decoration: none;
-    color: #007bff;
-    margin-left: 10px;
+.status {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 3px;
 }
 
-.task-list li a:hover {
-    color: #0056b3;
+.status.pending {
+    background-color: #ffc107;
+    color: #856404;
+}
+
+.status.completed {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Responsività */
+@media (max-width: 768px) {
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-actions {
+        margin-top: 10px;
+    }
 }
